@@ -1,0 +1,10 @@
+# Normal GPIO pins, left side
+set_io -nowarn A 23
+set_io -nowarn B 25
+set_io -nowarn C 26
+set_io -nowarn D 27
+set_io -nowarn clk 32
+set_io -nowarn reset 35
+set_io -nowarn enable 31
+set_io -nowarn gpio_37 37
+set_io -nowarn gpio_34 34
