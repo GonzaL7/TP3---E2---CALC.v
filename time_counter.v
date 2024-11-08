@@ -1,3 +1,4 @@
+// Autor: @SantinoAggosti
 module time_counter(
     input wire clk,     // Clock signal
     input wire reset,   // Reset signal

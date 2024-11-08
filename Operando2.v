@@ -1,3 +1,5 @@
+// Autor: @Sanmarr
+
 module Operando2(
 
     input wire clk,     // Clock signalz

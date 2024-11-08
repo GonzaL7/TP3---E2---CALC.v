@@ -1,12 +1,17 @@
-// Autor: @SantinoAggosti
-module deteccionBoton(
-  input wire enable,
-  input wire R1, 
-  input wire R2, 
-  input wire R3,
-  input wire R4,
-  output reg botonApretado,
-  output reg [15:0] );
+module teclado(
+  input wire Fila1, 
+  input wire Fila2, 
+  input wire FIla3,
+  input wire Fila4,
+
+  
+  
+  output wire Columna1,
+  output wire Columna2,
+  output wire Columna3,
+  output wire Columna4,
+
+  output reg botonApretado);
  
  //Necesito que sea independiente de Clk.
  // @(*) hace que sea un bloque combinacional
