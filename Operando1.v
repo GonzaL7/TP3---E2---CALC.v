@@ -8,7 +8,7 @@ module Operando1(
     output reg [31:0] number1, // 32-bit counter
     output wire refresh_digit, // Enable que permite que el numero se actualize
     output reg shift_counter, // contador para saber cuanto shiftear  
-    output reg save_1
+    output reg [31:0] save_1
 
 );
 
