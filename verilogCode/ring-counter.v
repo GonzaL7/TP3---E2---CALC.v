@@ -1,4 +1,4 @@
-module ring_counter4(
+module ring_counter(
   input wire clk,
   input wire reset,
   input wire enable,

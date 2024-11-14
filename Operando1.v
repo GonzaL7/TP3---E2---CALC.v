@@ -1,3 +1,4 @@
+//Autor: @Sanmarr
 module Operando1(
 
     input wire clk,     // Clock signal
