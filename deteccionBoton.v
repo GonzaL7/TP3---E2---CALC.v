@@ -5,9 +5,9 @@ module deteccionBoton(
   input wire R2, 
   input wire R3,
   input wire R4,
-  output reg botonApretado,
-  output reg [15:0] );
+  output reg botonApretado);
  
+
  //Necesito que sea independiente de Clk.
  // @(*) hace que sea un bloque combinacional
 always @(*) begin
