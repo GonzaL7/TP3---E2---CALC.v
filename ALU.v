@@ -4,7 +4,7 @@ module ALU (
     input wire [3:0] num1,        // 4-bit input number 1
     input wire [3:0] num2,        // 4-bit input number 2
     input wire op_selected,       // Operation selected: 0 for add, 1 for subtract
-    output reg [4:0] number_out   // 5-bit output to handle carry
+    output reg [3:0] number_out   // 4-bit output
 );
 
 always @(posedge clk or posedge clear) begin
