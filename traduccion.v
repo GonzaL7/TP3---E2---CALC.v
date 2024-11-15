@@ -1,5 +1,7 @@
+
+
 module traduccion_teclado (
-    input wire [3:0] input_teclado,  // 4-bit input where [3:2] are columns and [1:0] are rows
+    input wire [5:0] input_teclado,  // 4-bit input where [3:2] are columns and [1:0] are rows
     output reg [3:0] traduccion  // 4-bit output representing the pressed key in binary
 );
 
@@ -26,3 +28,4 @@ always @(*) begin
 end
 
 endmodule
+

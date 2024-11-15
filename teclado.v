@@ -4,14 +4,14 @@ module teclado(
   input reset,
   input wire [3:0] filas;
   output reg [3:0] columnas;
-  output reg [5:0] indice_boton; // Primeros 3 bits, posicion de columna (Si el MSB es 1, HAY UN ERROR) # Segundos dos bits, posicion de fila (Si el MSB esta en uno, ningun boton fue apretado)
-  output reg button_pressed);
+  output reg [5:0] indice_boton// Primeros 3 bits, posicion de columna (Si el MSB es 1, HAY UN ERROR) # Segundos dos bits, posicion de fila (Si el MSB esta en uno, ningun boton fue apretado)
+);
 
   reg columna_actual[2:0], fila_actual[2:0];
 
   // Itero las cuatro columnas
   ring_counter ring(clk, reset, enable, columnas[0], columnas[1], columnas[2], columnas[3]);
-  deteccionBoton detectar_boton(enable, fila[0], fila[1], fila[2], fila[3], button_pressed)
+  deteccionBoton detectar_boton(enable, fila[0], fila[1], fila[2], fila[3], button_pressed);
 
 initial begin
   reset = 1;
@@ -21,12 +21,7 @@ end
  // @(*) hace que sea un bloque combinacional
 
 always @(*) begin
-
-  if (reset)begin
-
-  end
-  enable = 1;
-  reset = 0;
+  if (enable)begin
 
   // Logica de Deteccion de Columnas
   case (columnas)
@@ -51,10 +46,11 @@ always @(*) begin
     endcase
     
     indice_boton[2:0] <= fila_actual;
-    indice_boton[5:3] <= columna_actual;
   end
+  indice_boton[5:3] <= columna_actual;
   else begin // Me aseguro de avisarle que ningun boton se esta apretando!
     indice_boton[2:0] <= 3'b100;
   end
+end
 end
 endmodule

@@ -7,7 +7,6 @@ module ring_counter(
   output reg C,
   output reg D);
  
- 
 always @(posedge clk) begin
   if (reset) begin
     B = 0;
