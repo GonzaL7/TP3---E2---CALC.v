@@ -1,3 +1,4 @@
+// Autor: @Sanmarr
 module FSM_Mealy_Calculadora (
 
     input wire clk, 
