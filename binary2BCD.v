@@ -1,12 +1,13 @@
 module binary2BCD(
-    input [7:0] binary,
-    output reg [15:0] bcd
+    input [13:0] binary,  // Entrada de 14 bits
+    output reg [15:0] bcd  // Salida de 25 bits para almacenar el BCD
 );
     integer i;
+    
     always @(binary) begin
-        bcd = 16'b0;  // Inicializar a 0
+        bcd = 14'b0;  // Inicializar a 0
 
-        for (i = 7; i >= 0; i = i - 1) begin
+        for (i = 13; i >= 0; i = i - 1) begin
             // Ajuste BCD si algún dígito es 5 o más
             if (bcd[3:0] >= 5) bcd[3:0] = bcd[3:0] + 3;
             if (bcd[7:4] >= 5) bcd[7:4] = bcd[7:4] + 3;
