@@ -34,8 +34,6 @@ sincronize sincronize_inst (
     .rst(rst)
 );
 
-
-
 // Instanciar módulo Traducción
 traduccion traduccion_inst (
     .input_teclado(input_teclado),

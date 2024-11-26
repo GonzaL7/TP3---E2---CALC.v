@@ -1,4 +1,6 @@
 // Autor: GonzaL7
+
+
 module ALU (
     input wire clk,                  // Clock signal
     input wire clear,                // Reset signal

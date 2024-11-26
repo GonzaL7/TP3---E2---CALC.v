@@ -7,7 +7,7 @@ module testbenchBCD2binary;
     wire [13:0] bin;     // Salida en binario
 
     // Instancia del módulo a probar
-    BCD_to_Binary dut (
+    BCD2binary dut (
         .bcd(bcd),
         .bin(bin)
     );
