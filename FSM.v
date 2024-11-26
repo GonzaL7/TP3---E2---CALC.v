@@ -1,5 +1,5 @@
 // Autor: @Sanmarr
-module FSM_Mealy_Calculadora (
+module FSM (
 
     input wire clk, 
     input wire resetn,
