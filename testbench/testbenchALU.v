@@ -1,98 +1,74 @@
-`timescale 1ns / 1ps
+module testbenchALU;
 
-module ALU_tb;
-
-    // Entradas del DUT
+    // Registros para las señales de entrada
     reg clk;
     reg clear;
-    reg [15:0] num1;
-    reg [15:0] num2;
+    reg [15:0] bcd1;
+    reg [15:0] bcd2;
     reg [1:0] op_selected;
 
-    // Salida del DUT
-    wire [16:0] number_out;
+    // Señales para las salidas
+    wire [15:0] bcd_out;
+    wire special_signal;
 
-    // Instanciar el módulo ALU
-    ALU dut (
+    // Instancia del módulo ALU_BCD
+    ALU uut (
         .clk(clk),
         .clear(clear),
-        .num1(num1),
-        .num2(num2),
+        .bcd1(bcd1),
+        .bcd2(bcd2),
         .op_selected(op_selected),
-        .number_out(number_out),
-        .special_signal(special_signal)        // Señal especial para indicar resta
+        .bcd_out(bcd_out),
+        .special_signal(special_signal)
     );
 
-    // Generar el reloj
-    always #5 clk = ~clk; // Periodo de 10 unidades de tiempo
+    // Generación del reloj
+    always begin
+        #5 clk = ~clk;  // Ciclo de reloj con periodo de 10 unidades de tiempo
+    end
 
-    // Estímulos
+    // Inicialización de señales
     initial begin
-        // Inicializar señales
+        // Inicialización del reloj y señales
         clk = 0;
-        clear = 1;
-        num1 = 0;
-        num2 = 0;
-        op_selected = 2'b00;
+        clear = 0;
+        bcd1 = 16'b0;
+        bcd2 = 16'b0;
+        op_selected = 2'b01;  // Suma por defecto
 
-        // Ciclo de reinicio
-        #100 clear = 0; 
+        // Desactivamos la señal de reinicio
+        #10 clear = 1;
+        #10 clear = 0;  // Desactivamos el reinicio
 
-        // Prueba 1: Suma (5 + 3)
-        num1 = 16'd5;
-        num2 = 16'd3;
-        op_selected = 2'b01;
-        @(posedge clk);  // Esperar un ciclo de reloj
-        #100;  // Esperar un breve tiempo tras el flanco para observar la salida
+        // Test de Suma: bcd1 = 12 (0001 0010), bcd2 = 34 (0010 0100)
+        #10 bcd1 = 16'b0001001000000000;  // BCD para 12
+        #10 bcd2 = 16'b0010001100000000;  // BCD para 34
+        #10 op_selected = 2'b01;  // Operación de suma
+        #20;  // Esperar para ver el resultado
 
-        // Prueba 2: Resta (10 - 7)
-        num1 = 16'd10;
-        num2 = 16'd7;
-        op_selected = 2'b10;
-        @(posedge clk);
-        #100;
+        // Test de Resta: bcd1 = 45 (0100 0101), bcd2 = 23 (0010 0011)
+        #10 bcd1 = 16'b0100010100000000;  // BCD para 45
+        #10 bcd2 = 16'b0010001100000000;  // BCD para 23
+        #10 op_selected = 2'b10;  // Operación de resta
+        #20;  // Esperar para ver el resultado
 
-        // Prueba 3: Suma grande (65535 + 1)
-        num1 = 16'd65535;
-        num2 = 16'd1;
-        op_selected = 2'b01;
-        @(posedge clk);
-        #100;
-
-        // Prueba 4: Resta negativa (5 - 10)
-        num1 = 16'd26;
-        num2 = 16'd16;
-        op_selected = 2'b10;
-        @(posedge clk);
-        #100;
-
-        // Prueba 4: Resta negativa (5 - 10)
-        num1 = 16'd16;
-        num2 = 16'd26;
-        op_selected = 2'b10;
-        @(posedge clk);
-        #100;
-
-        // Prueba 4: Resta negativa (5 - 10)
-        num1 = 16'd26;
-        num2 = 16'd16;
-        op_selected = 2'b10;
-        @(posedge clk);
-        #100;
-
-        // Prueba 5: Operación no definida
-        op_selected = 2'b11;
-        @(posedge clk);
-        #100;
+        // Test de Resta con señal especial: bcd1 = 15 (0001 0101), bcd2 = 25 (0010 0101)
+        #10 bcd1 = 16'b0001010100000000;  // BCD para 15
+        #10 bcd2 = 16'b0010010100000000;  // BCD para 25
+        #10 op_selected = 2'b10;  // Operación de resta
+        #20;  // Esperar para ver el resultado
 
         // Finalizar simulación
-        $finish;
+        #100 $finish;
     end
 
-    // Monitor para observar los resultados
+    // Monitorear los resultados
     initial begin
-        $monitor("Time=%0t | Clear=%b | Num1=%d | Num2=%d | Op=%b | Result=%d | Sign=%d",
-                 $time, clear, num1, num2, op_selected, number_out, special_signal);
+        $monitor("Time = %t, bcd1 = %h, bcd2 = %h, op_selected = %b, bcd_out = %h, special_signal = %b", 
+                  $time, bcd1, bcd2, op_selected, bcd_out, special_signal);
+        
     end
+
+    
 
 endmodule
