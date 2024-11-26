@@ -1,4 +1,4 @@
-module binary_to_BCD(
+module binary2BCD(
     input [7:0] binary,
     output reg [15:0] bcd
 );
