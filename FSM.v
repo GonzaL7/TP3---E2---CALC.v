@@ -13,7 +13,7 @@ module FSM (
     //Salidas
     output reg [1:0] save_enable,   //Avisa que hay que guardar en un save: [00] = nada, [01] = save1, [10]= saveOp, [11] = save2
     output reg op_enable,           //Avisa que hay un operador
-    output reg alu_enable,          //Avilita a la alu hacer la operacion
+    output reg alu_enable,          //Habilita a la alu hacer la operacion
     output reg [1:0] disp_enable,   //Avisa en que pantalla estamos: [00] = 0000, [01] = save1, [10]= saveOp, [11] = save2
     output reg rst_cnt,             //resetea el contador
     output reg equ_enable,          //guarda el resultado
