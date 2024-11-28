@@ -83,22 +83,7 @@ cnt cnt_inst(
     .cnt_out(cnt_out) 
 );
 
-//Entradas y salidas de BCD2binary
-wire [15:0] bcd;      // 4 dígitos en BCD (16 bits)
-wire [13:0] bin;  // Salida en binario (máximo 9999 en decimal = 14 bits)
-BCD2binary BCD2binary_inst (
-    .bcd(bcd), 
-    .bin(bin)  
-);
 
-
-//Entradas y salidas de binary2BCD
-wire [13:0] binar;
-wire [15:0] bcdd;
-binary2BCD binary2BCD_inst(
-    .binary(binary),
-    .bcdd(bcdd)
-);
 
 
 // Conectar las salidas finales
