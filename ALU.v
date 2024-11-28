@@ -18,22 +18,22 @@ module ALU (
     integer i;
 
     // Instanciar módulos multiplicadores para bcd1
-    mul10 mul10_inst1 (.clk(clk), .in10(bcd1[3:0]), .out10(mul10_out1));
-    mul100 mul100_inst1 (.clk(clk), .in100(bcd1[7:4]), .out100(mul100_out1));
-    mul1k mul1k_inst1 (.clk(clk), .in1k(bcd1[11:8]), .out1k(mul1k_out1));
+    mul10 mul10_inst1 (.clk(clk), .in10(bcd1[7:4]), .out10(mul10_out1));
+    mul100 mul100_inst1 (.clk(clk), .in100(bcd1[11:8]), .out100(mul100_out1));
+    mul1k mul1k_inst1 (.clk(clk), .in1k(bcd1[15:12]), .out1k(mul1k_out1));
 
     // Instanciar módulos multiplicadores para bcd2
-    mul10 mul10_inst2 (.clk(clk), .in10(bcd2[3:0]), .out10(mul10_out2));
-    mul100 mul100_inst2 (.clk(clk), .in100(bcd2[7:4]), .out100(mul100_out2));
-    mul1k mul1k_inst2 (.clk(clk), .in1k(bcd2[11:8]), .out1k(mul1k_out2));
+    mul10 mul10_inst2 (.clk(clk), .in10(bcd2[7:4]), .out10(mul10_out2));
+    mul100 mul100_inst2 (.clk(clk), .in100(bcd2[11:8]), .out100(mul100_out2));
+    mul1k mul1k_inst2 (.clk(clk), .in1k(bcd2[15:12]), .out1k(mul1k_out2));
 
     // Convertir BCD a binario
     always @(*) begin
         // Conversión de bcd1 a binario
-        bin1 = mul10_out1 + mul100_out1 + mul1k_out1 + mul10k_out1;
+        bin1 = bcd1[3:0] + mul10_out1 + mul100_out1 + mul1k_out1;
 
         // Conversión de bcd2 a binario
-        bin2 = mul10_out2 + mul100_out2 + mul1k_out2 + mul10k_out2;
+        bin2 = bcd2[3:0] +mul10_out2 + mul100_out2 + mul1k_out2;
     end
 
     // ALU: Operación aritmética

@@ -86,7 +86,6 @@ cnt cnt_inst (
 
 
 // Entradas y salidas de FSM
-wire clk; 
 wire rstFSM;
 wire [1:0] save_enable;     //Avisa que hay que guardar en un save: [00] = nada, [01] = save1, [10]= saveOp, [11] = save2
 wire op_enable;             //Avisa que hay un operador
@@ -114,9 +113,7 @@ FSM FSM_inst (
     );
 
 
-
-
-
+// Entradas y salidas de memory
 reg [15:0] save1;
 reg [15:0] save2;
 reg [3:0] op_out;
