@@ -24,23 +24,23 @@ module FSM (
     reg [3:0] next_event;
 
     // Asignacion de estados
-    parameter [3:0] MemoryClear =       4'b0000;
+    parameter [3:0] memoryClear =       4'b0000;
     parameter [3:0] save_1 =            4'b0001;
-    parameter [3:0] Esperando_1 =       4'b0010;
-    parameter [3:0] Esperando_Op_1 =    4'b0011;
+    parameter [3:0] esperando_1 =       4'b0010;
+    parameter [3:0] esperando_Op_1 =    4'b0011;
     parameter [3:0] save_Op =           4'b0100;
     parameter [3:0] save_2 =            4'b0101;
-    parameter [3:0] Esperando_2 =       4'b0110;
-    parameter [3:0] Esperando_EQ =      4'b0111;
+    parameter [3:0] esperando_2 =       4'b0110;
+    parameter [3:0] esperando_EQ =      4'b0111;
     parameter [3:0] ALU =               4'b1000;
-    parameter [3:0] RES =               4'b1001;
-    parameter [3:0] Save_Res =          4'b1010;
-    parameter [3:0] Error_Messg =       4'b1011;
+    parameter [3:0] res =               4'b1001;
+    parameter [3:0] save_res =          4'b1010;
+    parameter [3:0] error_Messg =       4'b1011;
 
     // Logica de proximo estado curr_y salida (combinacional)
     always @(cnt_out,num, OP, C, EQ, curr_event)
         case (curr_event)
-            MemoryClear: if (num == 0)
+            memoryClear: if (num == 0)
                 begin
                     save_enable <= 2'b00;
                     op_enable <= 0;        
@@ -50,7 +50,7 @@ module FSM (
                     equ_enable <= 0;       
                     
                     //Proximo Estado
-                    next_event = MemoryClear;
+                    next_event = memoryClear;
                 end
                else
                 begin
@@ -75,10 +75,10 @@ module FSM (
                     equ_enable <= 0;       
                     
                     //Proximo Estado
-                    next_event = Esperando_1;
+                    next_event = esperando_1;
                 end
 
-            Esperando_1: 
+            esperando_1: 
                 begin
                     if (C ==1) begin
                         save_enable <= 2'b00;
@@ -89,7 +89,7 @@ module FSM (
                         equ_enable <= 0;       
                     
                         //Proximo Estado
-                        next_event = MemoryClear;
+                        next_event = memoryClear;
                     end
                     else if (OP == 1) begin
                         save_enable <= 2'b00;
@@ -122,11 +122,11 @@ module FSM (
                         equ_enable <= 0;       
                     
                         //Proximo Estado
-                        next_event = Esperando_1; 
+                        next_event = esperando_1; 
                     end
                 end
             
-            Esperando_Op_1:
+            esperando_Op_1:
                 begin
                     if (C == 1) begin
                         save_enable <= 2'b00;
@@ -137,7 +137,7 @@ module FSM (
                         equ_enable <= 0;       
                     
                         //Proximo Estado
-                        next_event = MemoryClear;  
+                        next_event = memoryClear;  
                     end
                     else if (OP == 1) begin
                         save_enable <= 2'b00;
@@ -159,7 +159,7 @@ module FSM (
                         equ_enable <= 0;       
                     
                         //Proximo Estado
-                        next_event = Esperando_Op_1;                        
+                        next_event = esperando_Op_1;                        
                     end
                 end
             save_Op:
@@ -172,10 +172,10 @@ module FSM (
                     equ_enable <= 0;       
                 
                     //Proximo Estado
-                    next_event = Esperando_Op_1;
+                    next_event = esperando_Op_1;
                 end
 
-            Esperando_2:
+            esperando_2:
             begin
                 if (C==1) begin
                         save_enable <= 2'b00;
@@ -186,7 +186,7 @@ module FSM (
                         equ_enable <= 0;       
                     
                         //Proximo Estado
-                        next_event = MemoryClear;
+                        next_event = memoryClear;
                 end
                 else if (cnt_out == 1) begin
                     save_enable <= 2'b00;
@@ -197,7 +197,7 @@ module FSM (
                         equ_enable <= 0;       
                     
                         //Proximo Estado
-                        next_event = Esperando_EQ;
+                        next_event = esperando_EQ;
                 end
                 else if (num == 1) begin
                         save_enable <= 2'b11;
@@ -222,10 +222,10 @@ module FSM (
                     equ_enable <= 0;
 
                     //Proximo Estado
-                    next_event = Esperando_2;
+                    next_event = esperando_2;
                 end
             
-            Esperando_EQ:
+            esperando_EQ:
             begin
                 if (EQ == 0) begin
                     save_enable <= 2'b00;
@@ -236,7 +236,7 @@ module FSM (
                     equ_enable <= 0;
 
                     //Proximo Estado
-                    next_event = Esperando_EQ;  
+                    next_event = esperando_EQ;  
                 end
                 else if (C == 1) begin
                     save_enable <= 2'b00;
@@ -247,7 +247,7 @@ module FSM (
                     equ_enable <= 0;
 
                     //Proximo Estado
-                    next_event = MemoryClear;
+                    next_event = memoryClear;
                 end
                 else if (EQ == 1) begin
                     save_enable <= 2'b00;
@@ -272,10 +272,10 @@ module FSM (
                     equ_enable <= 0;
 
                     //Proximo Estado
-                    next_event = RES;
+                    next_event = res;
                 end
             
-            RES:
+            res:
                 begin
                     if (C == 0 && EQ == 0) begin
                         save_enable <= 2'b00;
@@ -286,7 +286,7 @@ module FSM (
                         equ_enable <= 0;
     
                         //Proximo Estado
-                        next_event = RES;
+                        next_event = res;
                     end
                     else if (C == 1) begin
                         save_enable <= 2'b00;
@@ -297,7 +297,7 @@ module FSM (
                         equ_enable <= 0;
     
                         //Proximo Estado
-                        next_event = MemoryClear;
+                        next_event = memoryClear;
                     end
                     else if (EQ == 1) begin
                         save_enable <= 2'b01;
@@ -308,10 +308,10 @@ module FSM (
                         equ_enable <= 1;
     
                         //Proximo Estado
-                        next_event = Save_Res;
+                        next_event = save_res;
                     end
                 end
-            Save_Res:
+            save_res:
                 begin
                     save_enable <= 2'b00;
                     op_enable <= 0;        
@@ -321,16 +321,16 @@ module FSM (
                     equ_enable <= 0;
 
                     //Proximo Estado
-                    next_event = Esperando_2;
+                    next_event = esperando_2;
                 end
         
-            default: next_event = Error_Messg;
+            default: next_event = error_Messg;
         
         endcase
 
     // Transicion de estado
     always @(negedge resetn, posedge clk)
-        if (resetn == 0) curr_event <= MemoryClear;
+        if (resetn == 0) curr_event <= memoryClear;
         else curr_event <= next_event;
 
 endmodule
