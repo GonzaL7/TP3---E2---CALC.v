@@ -2,11 +2,11 @@ module topLevel(
 input wire clk,           // Señal de reloj para todo el sistema
 input wire reset,         // Señal de reset
 input wire enable,
-input wire [3:0] filas
+input wire [3:0] filas,
+output wire [3:0] columnas
 );
 
 //Entradas y Salidas del teclado
-wire [3:0] columnas;
 wire [5:0] indice_boton;
 teclado teclado_inst (
     .enable(enable),
@@ -63,7 +63,6 @@ cnt cnt_inst (
 
 
 // Entradas y salidas de FSM
-wire rstFSM;
 wire [1:0] save_enable;     //Avisa que hay que guardar en un save: [00] = nada, [01] = save1, [10]= saveOp, [11] = save2
 wire op_enable;             //Avisa que hay un operador
 wire alu_enable;            //Habilita a la alu hacer la operacion
@@ -74,7 +73,7 @@ wire [3:0] curr_event;
 wire [3:0] next_event;
 FSM FSM_inst (
     .clk(clk), 
-    .resetn(rstFSM),
+    .resetn(reset),
     .cnt_out(cnt_out),              
     .num(num),                      
     .OP(op),                        
@@ -96,6 +95,7 @@ wire [15:0] save2;
 wire [3:0] op_out;
 memory memory_inst (
     .clk(clk),
+    .rst(reset),
     .num(keyPressed),
     .res(res),
     .operator(operator),

@@ -13,6 +13,7 @@ module sincronize (
             begin
                 key_pressA <= 0;
                 key_detect <= 0;
+                key_press <= 0;
             end
         else
             begin
