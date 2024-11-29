@@ -4,7 +4,7 @@ module ALU (
 
     input wire [15:0] bcd1,            // Número 1 en BCD (16 bits)
     input wire [15:0] bcd2,            // Número 2 en BCD (16 bits)
-    input wire [1:0] op_selected,      // Selector de operación: 01 suma, 10 resta
+    input wire [3:0] op_selected,      // Selector de operación: 01 suma, 10 resta
 
     output reg [15:0] bcd_out,         // Resultado de la operación en BCD
     output reg special_signal          // Señal especial para indicar resta

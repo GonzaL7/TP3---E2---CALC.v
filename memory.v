@@ -14,8 +14,6 @@ module memory (
 );
 
     always @(*) begin
-
-
         if (save_enable == 2'b01) begin
             if (~clear_enable) begin
                 if (equ_enable) begin

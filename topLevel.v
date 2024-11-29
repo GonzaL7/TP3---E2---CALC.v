@@ -47,8 +47,8 @@ sincronize sincronize_inst (
 );
 
 //Entradas y Salidas de traduccion
-wire [5:0] input_teclado;       // 4-bit input where [3:2] are columns and [1:0] are rows
-wire [3:0] keyPressed;           // 4-bit output representing the pressed key in binary
+wire [5:0] input_teclado;           // 4-bit input where [3:2] are columns and [1:0] are rows
+wire [3:0] keyPressed;              // 4-bit output representing the pressed key in binary
 traduccion traduccion_inst(
     .input_teclado(input_teclado),  
     .key_detect(key_detect),           
@@ -115,7 +115,7 @@ wire [15:0] save2;
 wire [3:0] op_out;
 memory memory_inst (
     .clk(clk),
-    .num(num),
+    .num(keyPressed),
     .res(res),
     .operator(operator),
     .clear_enable(clear_enable),
@@ -134,25 +134,21 @@ wire special_signal;          // Special signal for subtraction
 ALU ALU_inst (
     .clk(clk),                 
     .clear(c),               
-    .bcd1(save_1),                
-    .bcd2(save_2),          
-    .op_selected(op_out),   
-    .alu_enable(alu_enable),    
+    .bcd1(save1),                
+    .bcd2(save2),          
+    .op_selected(op_out),       
     .bcd_out(res),       
     .special_signal(special_sign)       
 );
 
 
 //Entradas y salidas de display
-wire [3:0] save_1;        // Entrada de 4 bits (save_1)
-wire [3:0] save_2;        // Otra entrada de 4 bits (save_2)
-wire [1:0] Op;            // Selector de operación 2 bits (Operation)
 wire [1:0] display_state;
-wire [3:0] display_out;         // Salida de 4 bits
-disp disp_inst(
-    .save_1(save_1),        
-    .save_2(save_2),        
-    .Op(Op),            
+wire [15:0] display_out;         // Salida de 4 bits
+disp disp_inst(  
+    .save1(save1),
+    .save2(save2),    
+    .Op(op_out),            
     .display_state(display_state),
     .display_out(display_out) 
 );
