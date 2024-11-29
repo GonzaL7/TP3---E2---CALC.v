@@ -1,15 +1,15 @@
 module topLevel(
 input wire clk,           // Señal de reloj para todo el sistema
-input wire reset         // Señal de reset
+input wire reset,         // Señal de reset
+input wire enable
 );
 
 //Entradas y Salidas del teclado
-wire enableTECL;
 wire [3:0] filas;
 wire [3:0] columnas;
 wire [5:0] indice_boton;
 teclado teclado_inst (
-    .enable(enableTECL),
+    .enable(enable),
     .clk(clk),
     .reset(reset),
     .filas(filas),
@@ -19,14 +19,12 @@ teclado teclado_inst (
 
 //Entradas y Salidas de Sincronizacion
 wire key_press;    // Entrada de la tecla
-wire rst;
-wire num;
 wire key_detect;    // Señal de detección de flanco
 sincronize sincronize_inst (
     .clk(clk), 
     .key_press(key_press), 
     .key_detect(key_detect),
-    .rst(rst)
+    .rst(reset)
 );
 
 //Entradas y Salidas de traduccion
@@ -38,7 +36,8 @@ traduccion traduccion_inst(
 );
 
 
-//Entradas y Salidas de whichKey         
+//Entradas y Salidas de whichKey
+wire num;         
 wire op;               
 wire c;                
 wire equ;              
