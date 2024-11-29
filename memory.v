@@ -1,5 +1,6 @@
 module memory (
     input wire clk,
+    input wire rst,
     input wire [3:0] num,
     input wire [15:0] res,
     input wire [1:0] operator,
@@ -15,6 +16,14 @@ module memory (
 
     // Lógica sincronizada con el reloj
     always @(posedge clk) begin
+        if(rst) begin
+            save1 <= 0;
+            save2 <= 0;
+            op_out <= 0;
+        end
+
+
+
         // Borrado
         if (clear_enable) begin
             save1 <= 16'd0;

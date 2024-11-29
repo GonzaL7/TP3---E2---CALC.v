@@ -7,6 +7,7 @@ reg clk;
 reg reset;
 reg enable;
 reg [3:0] filas;
+wire [3:0] columnas;
 
 wire [15:0] res;  // Resultado de la ALU
 wire [15:0] display_out;
@@ -16,7 +17,8 @@ topLevel uut (
     .clk(clk),
     .reset(reset),
     .enable(enable),
-    .filas(filas)
+    .filas(filas),
+    .columnas(columnas)
 );
 
 // Generador de reloj
@@ -28,6 +30,9 @@ end
 // Estímulos iniciales
 initial begin
     // Inicialización de señales
+    $dumpfile("testbenchALL.vcd");
+    $dumpvars(4);
+
     reset = 1;
     enable = 0;
     filas = 4'b0000;
@@ -50,12 +55,12 @@ initial begin
     #20 filas = 4'b0000; // Presionar tecla "="
 
     // Finalizar simulación
-    #500 $stop;
+    #500 $finish;
 end
 
 // Monitor para ver las señales clave
-initial begin
-    $monitor($time, " Reset=%b, Enable=%b, Filas=%b, Resultado=%h, Display=%h", reset, enable, filas, res, display_out);
-end
+//initial begin
+//    $monitor($time, " Reset=%b, Enable=%b, Filas=%b, Resultado=%h, Display=%h", reset, enable, filas, res, display_out);
+//end
 
 endmodule

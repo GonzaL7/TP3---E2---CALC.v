@@ -38,6 +38,8 @@ module ALU (
 
     // ALU: Operación aritmética
     always @(*) begin
+
+        
         if (clear) begin
             bin_result <= 14'b0;           // Reiniciar el resultado binario
             special_signal <= 0;           // Reiniciar señal especial

@@ -27,7 +27,7 @@ module FSM (
     parameter [3:0] memoryClear =       4'b0000;
     parameter [3:0] save_1 =            4'b0001;
     parameter [3:0] esperando_1 =       4'b0010;
-    parameter [3:0] esperando_Op1 =    4'b0011;
+    parameter [3:0] esperando_Op1 =     4'b0011;
     parameter [3:0] Save_Op =           4'b0100;
     parameter [3:0] save_2 =            4'b0101;
     parameter [3:0] esperando_2 =       4'b0110;
@@ -124,6 +124,17 @@ module FSM (
                         //Proximo Estado
                         next_event = esperando_1; 
                     end
+                    else begin
+                        save_enable <= 2'b01;
+                        op_enable <= 0;        
+                        alu_enable <= 0;       
+                        disp_enable <= 2'b01;
+                        rst_cnt <= 0;          
+                        equ_enable <= 0;       
+                    
+                        //Proximo Estado
+                        next_event = esperando_1;
+                    end
                 end
             
             esperando_Op1:
@@ -161,6 +172,16 @@ module FSM (
                         //Proximo Estado
                         next_event = esperando_Op1;                        
                     end
+                    else begin
+                        save_enable <= 2'b00;
+                        op_enable <= 0;        
+                        alu_enable <= 0;       
+                        disp_enable <= 2'b10;
+                        rst_cnt <= 0;          
+                        equ_enable <= 0;
+                        //Proximo Estado
+                        next_event = esperando_Op1;  
+                    end
                 end
             Save_Op:
                 begin
@@ -172,7 +193,7 @@ module FSM (
                     equ_enable <= 0;       
                 
                     //Proximo Estado
-                    next_event = esperando_Op1;
+                    next_event = esperando_2;
                 end
 
             esperando_2:
@@ -210,6 +231,17 @@ module FSM (
                         //Proximo Estado
                         next_event = save_2;
                     end
+                else begin
+                        save_enable <= 2'b00;
+                        op_enable <= 0;        
+                        alu_enable <= 0;       
+                        disp_enable <= 2'b11;
+                        rst_cnt <= 0;          
+                        equ_enable <= 0;       
+                    
+                        //Proximo Estado
+                        next_event = esperando_2;
+                end
                 end
 
             save_2:
@@ -260,8 +292,18 @@ module FSM (
                     //Proximo Estado
                     next_event = ALU;
                     end
-                end
+                else begin
+                    save_enable <= 2'b00;
+                    op_enable <= 0;        
+                    alu_enable <= 1;       
+                    disp_enable <= 2'b11;
+                    rst_cnt <= 0;          
+                    equ_enable <= 0;
 
+                    //Proximo Estado
+                    next_event = esperando_EQ; 
+                end
+            end    
             ALU:
                 begin
                     save_enable <= 2'b00;
@@ -310,6 +352,18 @@ module FSM (
                         //Proximo Estado
                         next_event = save_res;
                     end
+                    else begin
+                        save_enable <= 2'b00;
+                        op_enable <= 0;        
+                        alu_enable <= 0;       
+                        disp_enable <= 2'b01;
+                        rst_cnt <= 0;          
+                        equ_enable <= 0;
+    
+                        //Proximo Estado
+                        next_event = res;
+                    end
+                
                 end
             save_res:
                 begin
@@ -329,8 +383,8 @@ module FSM (
         endcase
 
     // Transicion de estado
-    always @(negedge resetn, posedge clk)
-        if (resetn == 0) curr_event <= memoryClear;
+    always @(posedge clk)
+        if (resetn == 1) curr_event <= memoryClear;
         else curr_event <= next_event;
 
 endmodule
