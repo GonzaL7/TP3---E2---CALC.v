@@ -46,7 +46,7 @@ module FSM (
                     op_enable <= 0;        
                     alu_enable <= 0;       
                     disp_enable <= 2'b00;
-                    rst_cnt <= 0;          
+                    rst_cnt <= 1;          
                     equ_enable <= 0;       
                     
                     //Proximo Estado

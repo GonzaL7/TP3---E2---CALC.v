@@ -1,6 +1,6 @@
 `timescale 1ns/10ps
 
-module testbenchBoton;
+module testbenchdeteccionBoton;
 // Variable RingCounter
 reg clk, reset, enable;
 wire C1, C2, C3, C4;
@@ -9,7 +9,7 @@ reg A, B, C, D;
 wire boton;
 
 deteccionBoton detectar(enable, C1, C2, C3, D, boton);
-ring_counter4 select_col(clk, reset, enable, C1, C2, C3, C4);
+ring_counter select_col(clk, reset, enable, C1, C2, C3, C4);
 
 initial begin
     enable = 0;

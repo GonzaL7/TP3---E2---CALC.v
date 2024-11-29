@@ -3,7 +3,7 @@ module disp (
     input wire [15:0] save2,
     input [3:0] Op,            // Selector de operación 2 bits (Operation)
     input [1:0] display_state,
-    output reg [15:0] display_out // Salida de 4 bits
+    output reg [15:0] display_out // Salida de 16 bits
 );
 
     always @(*) begin

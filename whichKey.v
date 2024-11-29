@@ -8,12 +8,6 @@ module whichKey (
 );
 
 always @(*) begin
-    // Inicializar todas las salidas
-    is_number <= 0;
-    is_op <= 0;
-    is_c <= 0;
-    is_equ <= 0;
-    operator <= 2'b00;
 
     // Evaluar la tecla presionada
     case (key_pressed)

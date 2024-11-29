@@ -1,11 +1,11 @@
 module topLevel(
 input wire clk,           // Señal de reloj para todo el sistema
 input wire reset,         // Señal de reset
-input wire enable
+input wire enable,
+input wire [3:0] filas
 );
 
 //Entradas y Salidas del teclado
-wire [3:0] filas;
 wire [3:0] columnas;
 wire [5:0] indice_boton;
 teclado teclado_inst (

@@ -111,7 +111,7 @@ module memory_tb;
 
         // Test 5: Guardar operador con `save_enable = 2'b10`
         save_enable = 2'b10;
-        operator = 2'b11; // Operador `11`
+        operator = 2'b10; // Operador `11`
         #10;
 
         // Test 6: Verificar el estado con `clear_enable` activado
