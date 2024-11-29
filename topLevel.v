@@ -3,23 +3,6 @@ input wire clk,           // Señal de reloj para todo el sistema
 input wire reset         // Señal de reset
 );
 
-
-// Entradas y salidas de ring_counter
-wire A;
-wire B;
-wire C;
-wire D;
-wire enableRING;
-ring_counter ring_counter_inst(
-    .clk(clk),
-    .reset(reset),
-    .enable(enableRING),
-    .A(A),
-    .B(B),
-    .C(C),
-    .D(D)
-);
-
 //Entradas y Salidas del teclado
 wire enableTECL;
 wire [3:0] filas;
@@ -47,10 +30,9 @@ sincronize sincronize_inst (
 );
 
 //Entradas y Salidas de traduccion
-wire [5:0] input_teclado;           // 4-bit input where [3:2] are columns and [1:0] are rows
 wire [3:0] keyPressed;              // 4-bit output representing the pressed key in binary
 traduccion traduccion_inst(
-    .input_teclado(input_teclado),  
+    .input_teclado(indice_boton),  
     .key_detect(key_detect),           
     .traduccion(keyPressed)
 );
