@@ -27,8 +27,8 @@ module FSM (
     parameter [3:0] memoryClear =       4'b0000;
     parameter [3:0] save_1 =            4'b0001;
     parameter [3:0] esperando_1 =       4'b0010;
-    parameter [3:0] esperando_Op_1 =    4'b0011;
-    parameter [3:0] save_Op =           4'b0100;
+    parameter [3:0] esperando_Op1 =    4'b0011;
+    parameter [3:0] Save_Op =           4'b0100;
     parameter [3:0] save_2 =            4'b0101;
     parameter [3:0] esperando_2 =       4'b0110;
     parameter [3:0] esperando_EQ =      4'b0111;
@@ -100,7 +100,7 @@ module FSM (
                         equ_enable <= 0;       
                     
                         //Proximo Estado
-                        next_event = SaveOp; 
+                        next_event = Save_Op; 
                     end
                     else if (cnt_out == 1) begin
                         save_enable <= 2'b00;
@@ -111,7 +111,7 @@ module FSM (
                         equ_enable <= 0;       
                     
                         //Proximo Estado
-                        next_event = Esperando_op1; 
+                        next_event = esperando_Op1; 
                     end
                     else if (num==1 && cnt_out == 0) begin
                         save_enable <= 2'b01;
@@ -126,7 +126,7 @@ module FSM (
                     end
                 end
             
-            esperando_Op_1:
+            esperando_Op1:
                 begin
                     if (C == 1) begin
                         save_enable <= 2'b00;
@@ -148,7 +148,7 @@ module FSM (
                         equ_enable <= 0;       
                     
                         //Proximo Estado
-                        next_event = save_Op;
+                        next_event = Save_Op;
                     end 
                     else if (num == 1) begin
                         save_enable <= 2'b01;
@@ -159,10 +159,10 @@ module FSM (
                         equ_enable <= 0;       
                     
                         //Proximo Estado
-                        next_event = esperando_Op_1;                        
+                        next_event = esperando_Op1;                        
                     end
                 end
-            save_Op:
+            Save_Op:
                 begin
                     save_enable <= 2'b00;
                     op_enable <= 0;        
@@ -172,7 +172,7 @@ module FSM (
                     equ_enable <= 0;       
                 
                     //Proximo Estado
-                    next_event = esperando_Op_1;
+                    next_event = esperando_Op1;
                 end
 
             esperando_2:

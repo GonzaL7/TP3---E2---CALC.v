@@ -1,8 +1,6 @@
-
-
-module traduccion_teclado (
+module traduccion (
     input wire [5:0] input_teclado,  // 4-bit input where [3:2] are columns and [1:0] are rows
-    input reg key_detect,           // Para que se detecte una UNICA vez
+    input wire key_detect,           // Para que se detecte una UNICA vez
     output reg [3:0] traduccion  // 4-bit output representing the pressed key in binary
 );
 

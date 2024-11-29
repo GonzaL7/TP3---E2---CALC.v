@@ -1,56 +1,76 @@
 module teclado(
-  input enable,
-  input clk,
-  input reset,
-  input wire [3:0] filas;
-  output reg [3:0] columnas;
-  output reg [5:0] indice_boton// Primeros 3 bits, posicion de columna (Si el MSB es 1, HAY UN ERROR) # Segundos dos bits, posicion de fila (Si el MSB esta en uno, ningun boton fue apretado)
+  input wire enable,
+  input wire clk,
+  input wire reset,
+  input wire [3:0] filas,
+  output wire [3:0] columnas,
+  output reg [5:0] indice_boton // Primeros 3 bits: columna | Siguientes 3 bits: fila
 );
 
-  reg columna_actual[2:0], fila_actual[2:0];
+  reg [2:0] columna_actual; // Debe ser un vector, no un arreglo
+  reg [2:0] fila_actual;    // Debe ser un vector, no un arreglo
+  wire button_pressed;
 
-  // Itero las cuatro columnas
-  ring_counter ring(clk, reset, enable, columnas[0], columnas[1], columnas[2], columnas[3]);
-  deteccionBoton detectar_boton(enable, fila[0], fila[1], fila[2], fila[3], button_pressed);
+  // Instancias de módulos
+  ring_counter ring(
+    .clk(clk), 
+    .reset(reset), 
+    .enable(enable), 
+    .A(columnas[0]),
+    .B(columnas[1]),
+    .C(columnas[2]),
+    .D(columnas[3])
+  );
+  
+  deteccionBoton detectar_boton(
+    .enable(enable), 
+    .R1(filas[0]), 
+    .R2(filas[1]), 
+    .R3(filas[2]), 
+    .R4(filas[3]), 
+    .botonApretado(button_pressed)
+  );
 
-initial begin
-  reset = 1;
-  enable = 0;
-end
- // Necesito que sea independiente de Clk.
- // @(*) hace que sea un bloque combinacional
-
-always @(*) begin
-  if (enable)begin
-
-  // Logica de Deteccion de Columnas
-  case (columnas)
-    4'b0001: columna_actual = 3'b000; // Si la primer columna es 1
-    4'b0010: columna_actual = 3'b001; // Si la segunda columna es 1 
-    4'b0100: columna_actual = 3'b010; // Si la tercer columna es 1
-    4'b1000: columna_actual = 3'b011; // Si la cuarta columna es 1
-    4'b0000: columna_actual = 3'b100; // Si NINGUNA columna esta en 1 (POSIBLE ERROR)
-    default: columna_actual = 3'b101; // Caso Default (Hay algo muy raro) DEFINITIVAMENTE UN ERROR
-  endcase
-
-  // Logica de Deteccion de Fila
-  if (button_pressed == 1) begin
-    case (filas) 
-      4'b0001: fila_actual = 3'b000; // Si la primer fila esta en 1 
-      4'b0010: fila_actual = 3'b001; // Si la segunda fila esta en 1
-      4'b0100: fila_actual = 3'b010; // Si la tercer fila esta en 1
-      4'b1000: fila_actual = 3'b011; // Si la cuarta fila esta en 1
-      
-      4'b0000: fila_actual = 3'b100; // Si NINGUNA fila esta en 1
-      default: fila_actual = 3'b100; // Caso Default
-    endcase
-    
-    indice_boton[2:0] <= fila_actual;
+  // Lógica combinacional para detectar la columna actual
+  always @(*) begin
+    if (enable) begin
+      case (columnas)
+        4'b0001: columna_actual = 3'b000; // Primera columna
+        4'b0010: columna_actual = 3'b001; // Segunda columna
+        4'b0100: columna_actual = 3'b010; // Tercera columna
+        4'b1000: columna_actual = 3'b011; // Cuarta columna
+        4'b0000: columna_actual = 3'b100; // Ninguna columna activa
+        default: columna_actual = 3'b101; // Error
+      endcase
+    end else begin
+      columna_actual = 3'b100; // Por defecto: ninguna columna activa
+    end
   end
-  indice_boton[5:3] <= columna_actual;
-  else begin // Me aseguro de avisarle que ningun boton se esta apretando!
-    indice_boton[2:0] <= 3'b100;
+
+  // Lógica combinacional para detectar la fila actual
+  always @(*) begin
+    if (button_pressed) begin
+      case (filas)
+        4'b0001: fila_actual = 3'b000; // Primera fila
+        4'b0010: fila_actual = 3'b001; // Segunda fila
+        4'b0100: fila_actual = 3'b010; // Tercera fila
+        4'b1000: fila_actual = 3'b011; // Cuarta fila
+        4'b0000: fila_actual = 3'b100; // Ninguna fila activa
+        default: fila_actual = 3'b100; // Por defecto
+      endcase
+    end else begin
+      fila_actual = 3'b100; // Ningún botón presionado
+    end
   end
-end
-end
+
+  // Actualización del índice del botón presionado
+  always @(posedge clk or posedge reset) begin
+    if (reset) begin
+      indice_boton <= 6'b100_100; // Valores por defecto en caso de reset
+    end else begin
+      indice_boton[5:3] <= columna_actual;
+      indice_boton[2:0] <= fila_actual;
+    end
+  end
+
 endmodule
