@@ -1,45 +1,63 @@
-module testbenchdisp;
+`timescale 1ns / 1ps
 
-    // Declaración de señales para las entradas
-    reg [3:0] save_1;
-    reg [3:0] save_2;
-    reg [1:0] Op;
-    reg [1:0] display_state;
-    
-    // Declaración de la salida
+module disp_tb;
+
+    // Registros para las señales de entrada
+    reg clk;
+    reg reset;
+    reg [15:0] save1;
+    reg [15:0] save2;
+    reg display_state;
+
+    // Cables para las señales de salida
     wire [3:0] display_out;
-    
-    // Instanciación del módulo disp
+    wire sync;
+
+    // Instancia del módulo disp
     disp uut (
-        .save_1(save_1),
-        .save_2(save_2),
-        .Op(Op),
+        .clk(clk),
+        .reset(reset),
+        .save1(save1),
+        .save2(save2),
         .display_state(display_state),
-        .display_out(display_out)
+        .display_out(display_out),
+        .sync(sync)
     );
-    
-    // Bloque inicial para aplicar estímulos a las señales
+
+    // Generación del reloj
+    always begin
+        #5 clk = ~clk;  // Periodo de reloj de 10 unidades de tiempo
+    end
+
+    // Inicialización de señales y pruebas
     initial begin
-        // Inicialización de las señales
-        save_1 = 4'b0000;
-        save_2 = 4'b1111;
-        Op = 2'b00;
-        display_state = 2'b00;
-        
-        // Imprimir los resultados
-        $monitor("save_1 = %b, save_2 = %b, Op = %b, display_state = %b, display_out = %b", 
-                 save_1, save_2, Op, display_state, display_out);
-        
-        // Probar diferentes valores para las señales
-        #10 save_1 = 4'b0101; save_2 = 4'b1010; Op = 2'b01; display_state = 2'b00; // Espera 10 unidades de tiempo
-        #10 display_state = 2'b01;
-        #10 display_state = 2'b10;
-        #10 display_state = 2'b11; // Estado por defecto
-        #10 display_state = 2'b00;
-        #10 Op = 2'b10;
-        
-        // Finalizar la simulación
-        #10 $finish;
+        // Inicialización
+        clk = 0;
+        reset = 0;
+        save1 = 16'h1234;   // Datos iniciales para save1
+        save2 = 16'h5678;   // Datos iniciales para save2
+        display_state = 0;  // Seleccionar save1 inicialmente
+
+        // Reinicio del sistema
+        #10 reset = 1;
+        #10 reset = 0;
+
+        // Prueba con save1
+        display_state = 0; // Usar save1
+        #100;  // Esperar algunos ciclos para verificar los estados
+
+        // Prueba con save2
+        display_state = 1; // Usar save2
+        #100;  // Esperar algunos ciclos para verificar los estados
+
+        // Finalizar simulación
+        $finish;
+    end
+
+    // Monitoreo de señales
+    initial begin
+        $monitor("Time: %0t | reset: %b | display_state: %b | display_out: %h | sync: %b",
+                 $time, reset, display_state, display_out, sync);
     end
 
 endmodule
