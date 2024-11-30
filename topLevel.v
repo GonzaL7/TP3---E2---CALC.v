@@ -7,18 +7,23 @@ output wire [3:0] columnas
 );
 
 //Entradas y Salidas del teclado
-wire [5:0] indice_boton;
+wire [4:0] indice_boton;
+wire key_press;    // Entrada de la tecla
+wire [2:0] columna_actual; // Debe ser un vector, no un arreglo
+wire [2:0] fila_actual;
 teclado teclado_inst (
     .enable(enable),
     .clk(clk),
     .reset(reset),
     .filas(filas),
     .columnas(columnas),
-    .indice_boton(indice_boton)
+    .indice_boton(indice_boton),
+    .columna_actual(columna_actual), // Debe ser un vector, no un arreglo
+    .fila_actual(fila_actual),   // Debe ser un vector, no un arreglo
+    .button_pressed(key_press)
 );
 
 //Entradas y Salidas de Sincronizacion
-wire key_press;    // Entrada de la tecla
 wire key_detect;    // Señal de detección de flanco
 sincronize sincronize_inst (
     .clk(clk), 
@@ -121,7 +126,6 @@ ALU ALU_inst (
     .bcd_out(res),       
     .special_signal(special_sign)       
 );
-
 
 //Entradas y salidas de display
 wire [1:0] display_state;

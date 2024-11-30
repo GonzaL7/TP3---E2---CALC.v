@@ -1,0 +1,96 @@
+$date
+	Sat Nov 30 17:27:27 2024
+$end
+$version
+	Icarus Verilog
+$end
+$timescale
+	1ps
+$end
+$scope module whichKey_tb $end
+$var wire 2 ! operator [1:0] $end
+$var wire 1 " is_op $end
+$var wire 1 # is_number $end
+$var wire 1 $ is_equ $end
+$var wire 1 % is_c $end
+$var reg 4 & key_pressed [3:0] $end
+$var reg 1 ' rst $end
+$scope module uut $end
+$var wire 4 ( key_pressed [3:0] $end
+$var wire 1 ' rst $end
+$var reg 1 % is_c $end
+$var reg 1 $ is_equ $end
+$var reg 1 # is_number $end
+$var reg 1 " is_op $end
+$var reg 2 ) operator [1:0] $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+$comment Show the parameter values. $end
+$dumpall
+$end
+#0
+$dumpvars
+b0 )
+bx (
+1'
+bx &
+0%
+0$
+0#
+0"
+b0 !
+$end
+#10000
+1#
+b0 &
+b0 (
+0'
+#20000
+b1 &
+b1 (
+#30000
+0#
+1"
+b1 !
+b1 )
+b1010 &
+b1010 (
+#40000
+b10 !
+b10 )
+b1011 &
+b1011 (
+#50000
+0"
+b0 !
+b0 )
+1%
+b1100 &
+b1100 (
+#60000
+0%
+1$
+b1101 &
+b1101 (
+#70000
+0$
+b1110 &
+b1110 (
+#80000
+b1111 &
+b1111 (
+#90000
+1#
+b1001 &
+b1001 (
+#100000
+b101 &
+b101 (
+#110000
+b111 &
+b111 (
+#120000
+b0 &
+b0 (
+#230000

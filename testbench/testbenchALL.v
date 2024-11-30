@@ -42,18 +42,22 @@ initial begin
     enable = 1;
 
     // Simulación de entrada del teclado (ejemplo para suma)
-    #100 filas = 4'b0001; // Presionar tecla 1
-    #20 filas = 4'b0010; // Presionar tecla 2
-    #20 filas = 4'b1000; // Presionar tecla "+"
-    #20 filas = 4'b0100; // Presionar tecla 3
-    #20 filas = 4'b0000; // Presionar tecla "="
+    #100 filas = 4'b0000; // Presionar tecla 1
+    #100 filas = 4'b0001; // Presionar tecla 2
+    #100 filas = 4'b0001; // Presionar tecla 3
+    #100 filas = 4'b0001; // Presionar tecla 4
+    #100 filas = 4'b0001; // Presionar tecla A
+    #100 filas = 4'b0001; // Presionar tecla 6
+    #100 filas = 4'b0001; // Presionar tecla 7
+    #100 filas = 4'b0001; // Presionar tecla 8
+    #100 filas = 4'b0001; // Presionar tecla 9
 
     // Simulación de entrada del teclado (ejemplo para resta)
     #100 filas = 4'b0001; // Presionar tecla 5
     #20 filas = 4'b0010; // Presionar tecla "-"
     #20 filas = 4'b0100; // Presionar tecla 2
-    #20 filas = 4'b0000; // Presionar tecla "="
-
+    #20 filas = 4'b1111; // Presionar tecla "="
+    #20 
     // Finalizar simulación
     #500 $finish;
 end

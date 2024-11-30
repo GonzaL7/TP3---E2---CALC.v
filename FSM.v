@@ -24,18 +24,18 @@ module FSM (
     reg [3:0] next_event;
 
     // Asignacion de estados
-    parameter [3:0] memoryClear =       4'b0000;
-    parameter [3:0] save_1 =            4'b0001;
-    parameter [3:0] esperando_1 =       4'b0010;
-    parameter [3:0] esperando_Op1 =     4'b0011;
-    parameter [3:0] Save_Op =           4'b0100;
-    parameter [3:0] save_2 =            4'b0101;
-    parameter [3:0] esperando_2 =       4'b0110;
-    parameter [3:0] esperando_EQ =      4'b0111;
-    parameter [3:0] ALU =               4'b1000;
-    parameter [3:0] res =               4'b1001;
-    parameter [3:0] save_res =          4'b1010;
-    parameter [3:0] error_Messg =       4'b1011;
+    parameter [3:0] memoryClear =       4'b0000; // 0
+    parameter [3:0] save_1 =            4'b0001; // 1
+    parameter [3:0] esperando_1 =       4'b0010; // 2
+    parameter [3:0] esperando_Op1 =     4'b0011; // 3
+    parameter [3:0] Save_Op =           4'b0100; // 4
+    parameter [3:0] save_2 =            4'b0101; // 5
+    parameter [3:0] esperando_2 =       4'b0110; // 6
+    parameter [3:0] esperando_EQ =      4'b0111; // 7
+    parameter [3:0] ALU =               4'b1000; // 8
+    parameter [3:0] res =               4'b1001; // 9
+    parameter [3:0] save_res =          4'b1010; // 10 (A)
+    parameter [3:0] error_Messg =       4'b1011; // 11 (B)
 
     // Logica de proximo estado curr_y salida (combinacional)
     always @(cnt_out,num, OP, C, EQ, curr_event)
@@ -80,7 +80,7 @@ module FSM (
 
             esperando_1: 
                 begin
-                    if (C ==1) begin
+                    if (C == 1) begin
                         save_enable <= 2'b00;
                         op_enable <= 0;        
                         alu_enable <= 0;       

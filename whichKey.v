@@ -1,4 +1,5 @@
 module whichKey (
+    input wire rst,
     input wire [3:0] key_pressed,   // Entrada: tecla traducida (salida de `traduccion_teclado`)
     output reg is_number,           // Salida: 1 si es número (0–9), 0 si es operador
     output reg is_op,               // Señal alta si es un operador (A, B, etc.)
@@ -8,6 +9,14 @@ module whichKey (
 );
 
 always @(*) begin
+
+    if(rst) begin
+        is_number <= 0;    
+        is_op <= 0;        
+        is_c <= 0;         
+        is_equ <= 0;        
+        operator <= 2'b00;
+    end
 
     // Evaluar la tecla presionada
     case (key_pressed)
@@ -22,34 +31,66 @@ always @(*) begin
         4'b0111, // 7
         4'b1000, // 8
         4'b1001: // 9
+        begin
             is_number <= 1;
+            operator <= 2'b00;
+            is_op <= 0;
+            is_equ <= 0;
+            is_c <= 0;
+        end
+            
 
         // Operador A
         4'b1010: begin
             operator <= 2'b01;
             is_op <= 1;
+            is_number <= 0;
+            is_equ <= 0;
+            is_c <= 0;
         end
 
         // Operador B
         4'b1011: begin
             operator <= 2'b10;
             is_op <= 1;
+            is_number <= 0;
+            is_equ <= 0;
+            is_c <= 0;
         end
 
         // Operador C
         4'b1100: begin
             is_c <= 1;
+            is_number <= 0;
+            is_equ <= 0;
+            operator <= 2'b00;
+            is_op <= 0;
+            is_equ <= 0;
         end
 
-        // Operador D (<=)
+        // Operador D (=)
         4'b1101: begin
+            is_equ <= 0;
+            is_number <= 0;
+            operator <= 2'b00;
+            is_op <= 0;
             is_equ <= 1;
+            is_c <= 0;
+            
         end
 
         // Operadores especiales (* y #)
         4'b1110, // *
-        4'b1111: // #
-            is_op <= 1;
+        4'b1111: // # 
+        begin
+            is_equ <= 0;
+            is_number <= 0;
+            operator <= 2'b00;
+            is_op <= 0;
+            is_equ <= 0;
+            is_c <= 0;
+        end
+            
 
         default: begin
             // Valor por defecto
